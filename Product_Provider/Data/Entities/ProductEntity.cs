@@ -16,7 +16,10 @@ public class ProductEntity
 	public string SmallImage { get; set; } = null!;
 	public int Stock { get; set; }
 	public bool IsBestSeller { get; set; }
-	public string CategoryId { get; set; } = null!;
+    public bool IsNew { get; set; }
+    public bool IsSale { get; set; }
+    public bool IsTop { get; set; }
+    public string CategoryId { get; set; } = null!;
 	public CategoryEntity Category { get; set; } = null!;
 	public string SubCategoryId { get; set; } = null!;
 	public SubCategory Subcategory { get; set; } = null!;
