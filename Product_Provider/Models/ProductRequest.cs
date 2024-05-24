@@ -1,9 +1,7 @@
-﻿
-namespace Product_Provider.Models;
+﻿namespace Product_Provider.Models;
 
-public class ProductModel
+public class ProductRequest
 {
-    public string? Id { get; set; }
     public string BatchNumber { get; set; } = null!;
     public string ProductName { get; set; } = null!;
     public string ProductDescription { get; set; } = null!;

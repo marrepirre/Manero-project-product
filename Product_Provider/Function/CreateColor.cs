@@ -1,10 +1,13 @@
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Azure.Functions.Worker;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 using Newtonsoft.Json;
 using Product_Provider.Data.Contexts;
 using Product_Provider.Data.Entities;
+using Product_Provider.Models;
+using System.Drawing;
 
 namespace Product_Provider.Function
 {
@@ -19,12 +22,15 @@ namespace Product_Provider.Function
 			try
 			{
 				var body = await new StreamReader(req.Body).ReadToEndAsync();
-				var color = JsonConvert.DeserializeObject<ColorEntity>(body);
+				var request = JsonConvert.DeserializeObject<ColorRequest>(body);
 
-				_context.Colors.Add(color);
-				await _context.SaveChangesAsync();
+				if (!await _context.Colors.AnyAsync(x => x.Color == request.Color))
+				{
+                    _context.Colors.Add(new ColorEntity { Color = request.Color });
+                    await _context.SaveChangesAsync();
 
-				return new OkResult();
+                    return new OkResult();
+                }
 			}
 			catch (Exception ex)
 			{

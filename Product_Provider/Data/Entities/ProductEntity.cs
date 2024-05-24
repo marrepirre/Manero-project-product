@@ -13,19 +13,15 @@ public class ProductEntity
 	public string ProductDescription { get; set; } = null!;
 	public string Color { get; set; } = null!;
 	public string Size { get; set; } = null!;
-	public string SmallImage { get; set; } = null!;
 	public int Stock { get; set; }
 	public bool IsBestSeller { get; set; }
     public bool IsNew { get; set; }
     public bool IsSale { get; set; }
     public bool IsTop { get; set; }
-    public string CategoryId { get; set; } = null!;
-	public CategoryEntity Category { get; set; } = null!;
-	public string SubCategoryId { get; set; } = null!;
-	public SubCategory Subcategory { get; set; } = null!;
-
 	public decimal OriginalPrice { get; set; }
 	public decimal? DiscountPrice { get; set; }
-	public List<string> BigImage { get; set; } = [];
-
+    public string? SubCategory { get; set; }
+    public string? ThumbnailImage { get; set; }
+    public List<string> Images { get; set; } = [];
 }
+

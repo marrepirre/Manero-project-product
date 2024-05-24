@@ -1,10 +1,12 @@
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Azure.Functions.Worker;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 using Newtonsoft.Json;
 using Product_Provider.Data.Contexts;
 using Product_Provider.Data.Entities;
+using Product_Provider.Models;
 
 namespace Product_Provider.Function
 {
@@ -16,22 +18,25 @@ namespace Product_Provider.Function
 		[Function("CreateSize")]
         public async Task<IActionResult> Run([HttpTrigger(AuthorizationLevel.Function, "post")] HttpRequest req)
         {
-			try
-			{
-				var body = await new StreamReader(req.Body).ReadToEndAsync();
-				var size = JsonConvert.DeserializeObject<SizeEntity>(body);
+            try
+            {
+                var body = await new StreamReader(req.Body).ReadToEndAsync();
+                var request = JsonConvert.DeserializeObject<SizeRequest>(body);
 
-				_context.Sizes.Add(size);
-				await _context.SaveChangesAsync();
+                if (!await _context.Sizes.AnyAsync(x => x.Size == request.Size))
+                {
+                    _context.Sizes.Add(new SizeEntity { Size = request.Size });
+                    await _context.SaveChangesAsync();
 
-				return new OkResult();
-			}
-			catch (Exception ex)
-			{
-				_logger.LogError($"ERROR : CreateSize.Run() :: {ex.Message}");
-			}
+                    return new OkResult();
+                }
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError($"ERROR : CreateSize.Run() :: {ex.Message}");
+            }
 
-			return new BadRequestResult();
-		}
+            return new BadRequestResult();
+        }
     }
 }

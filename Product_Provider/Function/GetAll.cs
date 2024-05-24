@@ -4,6 +4,8 @@ using Microsoft.Azure.Functions.Worker;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 using Product_Provider.Data.Contexts;
+using Product_Provider.Data.Entities;
+using Product_Provider.Models;
 
 namespace Product_Provider.Function
 {
@@ -17,63 +19,43 @@ namespace Product_Provider.Function
         {
 			try
 			{
-				var category = req.Query["category"].ToString();
+				var subCategory = req.Query["subCategory"].ToString();
 				var color = req.Query["color"].ToString();
 				var size = req.Query["size"].ToString();
-				var batch = req.Query["batch"].ToString();
 				var isBestSeller = req.Query["bestseller"].ToString();
                 var isSale = req.Query["sale"].ToString();
                 var isNew = req.Query["new"].ToString();
                 var isTop = req.Query["top"].ToString();
-                var query = _context.Products
-				.Include(i => i.Subcategory).ThenInclude(i => i.Category)
-				.Include(i => i.Color)
-				.Include(i => i.Size)
-				.AsQueryable();
 
-				if (!string.IsNullOrEmpty(batch))
-				{
-					query = query.Where(x => x.BatchNumber == batch);
-				}
 
-				if (!string.IsNullOrEmpty(category))
-				{
-					query = query.Where(x => x.Subcategory.Category.CategoryName == category);
-				}
+				var query = _context.Products.AsQueryable();
+
+				if (!string.IsNullOrEmpty(subCategory))
+					query.Where(x => x.SubCategory ==  subCategory);
 
 				if (!string.IsNullOrEmpty(color))
-				{
-					query = query.Where(x => x.Color == color);
-				}
+                    query.Where(x => x.Color == color);
 
 				if (!string.IsNullOrEmpty(size))
-				{
-					query = query.Where(x => x.Size == size);
-				}
+					query.Where(x => x.Size == size);
 
-				if (isBestSeller == "true")
-				{
-					query = query.Where(x => x.IsBestSeller == true);
-				}
+                if (!string.IsNullOrEmpty(isBestSeller))
+                    query.Where(x => x.IsBestSeller == bool.Parse(isBestSeller));
 
-                if (isSale == "true")
-                {
-                    query = query.Where(x => x.IsSale == true);
-                }
+                if (!string.IsNullOrEmpty(isSale))
+                    query.Where(x => x.IsSale == bool.Parse(isSale));
 
-                if (isNew == "true")
-                {
-                    query = query.Where(x => x.IsNew == true);
-                }
+                if (!string.IsNullOrEmpty(isNew))
+                    query.Where(x => x.IsNew == bool.Parse(isNew));
 
-                if (isTop == "true")
-                {
-                    query = query.Where(x => x.IsTop == true);
-                }
+                if (!string.IsNullOrEmpty(isTop))
+                    query.Where(x => x.IsTop == bool.Parse(isTop));
 
-                var products = await query.ToListAsync();
+				var items = await query.ToListAsync();
 
-				return new OkObjectResult(products);
+                var products = ProductMapper.ToProductModelList(items);
+
+                return new OkObjectResult(products);
 			}
 			catch (Exception ex)
 			{
@@ -82,5 +64,34 @@ namespace Product_Provider.Function
 
 			return new BadRequestResult();
 		}
+
+
+    }
+
+
+	public static class ProductMapper
+	{
+        public static List<ProductModel> ToProductModelList(this List<ProductEntity> productEntities)
+        {
+            return productEntities.Select(pe => new ProductModel
+            {
+                Id = pe.Id,
+                BatchNumber = pe.BatchNumber,
+                ProductName = pe.ProductName,
+                ProductDescription = pe.ProductDescription,
+                Color = pe.Color, // Om du har flera färger, justera denna logik
+                Size = pe.Size,   // Om du har flera storlekar, justera denna logik
+                Stock = pe.Stock,
+                IsBestSeller = pe.IsBestSeller,
+                IsNew = pe.IsNew,
+                IsSale = pe.IsSale,
+                IsTop = pe.IsTop,
+                OriginalPrice = pe.OriginalPrice,
+                DiscountPrice = pe.DiscountPrice,
+                SubCategory = pe.SubCategory,
+                ThumbnailImage = pe.ThumbnailImage,
+                Images = pe.Images
+            }).ToList();
+        }
     }
 }

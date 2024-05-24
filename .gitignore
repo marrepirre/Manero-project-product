@@ -123,3 +123,4 @@ FileHistory/
 
 # Windows shortcuts
 *.lnk
+/Product_Provider/local.settings.json

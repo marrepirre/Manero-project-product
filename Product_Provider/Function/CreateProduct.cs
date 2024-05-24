@@ -21,44 +21,32 @@ namespace Product_Provider.Function
 			try
 			{
 				var body = await new StreamReader(req.Body).ReadToEndAsync();
-				var product = JsonConvert.DeserializeObject<ProductModel>(body);
+				var request = JsonConvert.DeserializeObject<ProductRequest>(body);
 
-				if (product != null)
+				if (request != null)
 				{
-					var subCategory = await _context.SubCategories.FirstOrDefaultAsync(x => x.SubCategoryName == product.SubCategoryName);
-					var subCategoryId = subCategory!.Id;
-					var category = await _context.Categories.FirstOrDefaultAsync(x => x.Id == subCategory.CategoryId);
-					var categoryId = category!.Id;
-					if (!string.IsNullOrEmpty(subCategoryId) && !string.IsNullOrEmpty(categoryId))
+					var productEntity = new ProductEntity
 					{
-
-						var productEntity = new ProductEntity
-						{
-							BatchNumber = product.BatchNumber,
-							ProductName = product.ProductName,
-							ProductDescription = product.ProductDescription,
-							Color = product.Color,
-							Size = product.Size,
-							SmallImage = product.SmallImage,
-							Stock = product.Stock,
-							IsBestSeller = product.IsBestSeller,
-							SubCategoryId = subCategoryId,
-							CategoryId = categoryId,
-							OriginalPrice = product.OriginalPrice,
-							DiscountPrice = product.DiscountPrice,
-							BigImage = product.BigImage,
-						};
-
-						if(productEntity !=  null)
-						{
-							_context.Products.Add(productEntity);
-							await _context.SaveChangesAsync();
-
-							return new OkResult();
-						}
-					}
+						BatchNumber = request.BatchNumber,
+						ProductName = request.ProductName,
+						ProductDescription = request.ProductDescription,
+						Color = request.Color,
+						Size = request.Size,
+						ThumbnailImage = request.ThumbnailImage,
+						Stock = request.Stock,
+						IsNew = request.IsNew,
+						IsSale = request.IsSale,
+						IsTop = request.IsTop,
+						IsBestSeller = request.IsBestSeller,
+						OriginalPrice = request.OriginalPrice,
+						DiscountPrice = request.DiscountPrice,
+						SubCategory = request.SubCategory,
+						Images = request.Images,
+					};
+  
+					_context.Add(productEntity);
+					await _context.SaveChangesAsync();
 				}
-
 
 			}
 			catch (Exception ex)
