@@ -8867,23 +8867,23 @@
     ]
   },
   "packageFolders": {
-    "C:\\Users\\Hanna\\.nuget\\packages\\": {},
+    "C:\\Users\\marcu\\.nuget\\packages\\": {},
     "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages": {}
   },
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Nackademin\\Asp.net2\\ExaminationManero\\Backend\\Examination_Product_Provider\\Product_Provider\\Product_Provider.csproj",
+      "projectUniqueName": "C:\\Nackademin\\asp2\\front\\Manero-project-product\\Product_Provider\\Product_Provider.csproj",
       "projectName": "Product_Provider",
-      "projectPath": "C:\\Nackademin\\Asp.net2\\ExaminationManero\\Backend\\Examination_Product_Provider\\Product_Provider\\Product_Provider.csproj",
-      "packagesPath": "C:\\Users\\Hanna\\.nuget\\packages\\",
-      "outputPath": "C:\\Nackademin\\Asp.net2\\ExaminationManero\\Backend\\Examination_Product_Provider\\Product_Provider\\obj\\",
+      "projectPath": "C:\\Nackademin\\asp2\\front\\Manero-project-product\\Product_Provider\\Product_Provider.csproj",
+      "packagesPath": "C:\\Users\\marcu\\.nuget\\packages\\",
+      "outputPath": "C:\\Nackademin\\asp2\\front\\Manero-project-product\\Product_Provider\\obj\\",
       "projectStyle": "PackageReference",
       "fallbackFolders": [
         "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
       ],
       "configFilePaths": [
-        "C:\\Users\\Hanna\\AppData\\Roaming\\NuGet\\NuGet.Config",
+        "C:\\Users\\marcu\\AppData\\Roaming\\NuGet\\NuGet.Config",
         "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
         "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
       ],
@@ -8964,7 +8964,7 @@
             "privateAssets": "all"
           }
         },
-        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\8.0.204/PortableRuntimeIdentifierGraph.json"
+        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\8.0.300/PortableRuntimeIdentifierGraph.json"
       }
     }
   }

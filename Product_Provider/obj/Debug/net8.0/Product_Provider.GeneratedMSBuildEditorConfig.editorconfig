@@ -15,6 +15,6 @@ build_property.PlatformNeutralAssembly =
 build_property.EnforceExtendedAnalyzerRules = 
 build_property._SupportedPlatformList = Linux,macOS,Windows
 build_property.RootNamespace = Product_Provider
-build_property.ProjectDir = C:\Nackademin\Asp.net2\ExaminationManero\Backend\Examination_Product_Provider\Product_Provider\
+build_property.ProjectDir = C:\Nackademin\asp2\front\Manero-project-product\Product_Provider\
 build_property.EnableComHosting = 
 build_property.EnableGeneratedComInterfaceComImportInterop = 
