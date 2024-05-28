@@ -19,7 +19,7 @@ namespace Product_Provider.Function
         {
 			try
 			{
-				var subCategory = req.Query["subCategory"].ToString();
+				var category = req.Query["category"].ToString();
 				var color = req.Query["color"].ToString();
 				var size = req.Query["size"].ToString();
 				var isBestSeller = req.Query["bestseller"].ToString();
@@ -30,8 +30,8 @@ namespace Product_Provider.Function
 
 				var query = _context.Products.AsQueryable();
 
-				if (!string.IsNullOrEmpty(subCategory))
-					query.Where(x => x.SubCategory ==  subCategory);
+				if (!string.IsNullOrEmpty(category))
+					query.Where(x => x.Category == category);
 
 				if (!string.IsNullOrEmpty(color))
                     query.Where(x => x.Color == color);
@@ -88,7 +88,7 @@ namespace Product_Provider.Function
                 IsTop = pe.IsTop,
                 OriginalPrice = pe.OriginalPrice,
                 DiscountPrice = pe.DiscountPrice,
-                SubCategory = pe.SubCategory,
+                Category = pe.Category,
                 ThumbnailImage = pe.ThumbnailImage,
                 Images = pe.Images
             }).ToList();

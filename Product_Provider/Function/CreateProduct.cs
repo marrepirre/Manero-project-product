@@ -8,53 +8,52 @@ using Product_Provider.Data.Contexts;
 using Product_Provider.Data.Entities;
 using Product_Provider.Models;
 
-namespace Product_Provider.Function
-{
+namespace Product_Provider.Function;
+
     public class CreateProduct(ILogger<CreateProduct> logger, DataContext context)
-	{
+{
         private readonly ILogger<CreateProduct> _logger = logger;
         private readonly DataContext _context = context;
 
-		[Function("CreateProduct")]
+	[Function("CreateProduct")]
         public async Task<IActionResult> Run([HttpTrigger(AuthorizationLevel.Function, "post")] HttpRequest req)
         {
-			try
-			{
-				var body = await new StreamReader(req.Body).ReadToEndAsync();
-				var request = JsonConvert.DeserializeObject<ProductRequest>(body);
+		try
+		{
+			var body = await new StreamReader(req.Body).ReadToEndAsync();
+			var request = JsonConvert.DeserializeObject<ProductRequest>(body);
 
-				if (request != null)
+			if (request != null)
+			{
+				var productEntity = new ProductEntity
 				{
-					var productEntity = new ProductEntity
-					{
-						BatchNumber = request.BatchNumber,
-						ProductName = request.ProductName,
-						ProductDescription = request.ProductDescription,
-						Color = request.Color,
-						Size = request.Size,
-						ThumbnailImage = request.ThumbnailImage,
-						Stock = request.Stock,
-						IsNew = request.IsNew,
-						IsSale = request.IsSale,
-						IsTop = request.IsTop,
-						IsBestSeller = request.IsBestSeller,
-						OriginalPrice = request.OriginalPrice,
-						DiscountPrice = request.DiscountPrice,
-						SubCategory = request.SubCategory,
-						Images = request.Images,
-					};
+					BatchNumber = request.BatchNumber,
+					ProductName = request.ProductName,
+					ProductDescription = request.ProductDescription,
+					Color = request.Color,
+					Size = request.Size,
+					ThumbnailImage = request.ThumbnailImage,
+					Stock = request.Stock,
+					IsNew = request.IsNew,
+					IsSale = request.IsSale,
+					IsTop = request.IsTop,
+					IsBestSeller = request.IsBestSeller,
+					OriginalPrice = request.OriginalPrice,
+					DiscountPrice = request.DiscountPrice,
+					Category = request.Category,
+					Images = request.Images,
+				};
   
-					_context.Add(productEntity);
-					await _context.SaveChangesAsync();
-				}
-
-			}
-			catch (Exception ex)
-			{
-				_logger.LogError($"ERROR : CreateColor.Run() :: {ex.Message}");
+				_context.Add(productEntity);
+				await _context.SaveChangesAsync();
 			}
 
-			return new BadRequestResult();
 		}
+		catch (Exception ex)
+		{
+			_logger.LogError($"ERROR : CreateColor.Run() :: {ex.Message}");
+		}
+
+		return new BadRequestResult();
+	}
     }
-}

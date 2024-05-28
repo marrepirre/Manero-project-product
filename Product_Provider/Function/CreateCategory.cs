@@ -36,11 +36,6 @@ public class CreateCategory(ILogger<CreateCategory> logger, DataContext context)
 				await _context.SaveChangesAsync();
 			}
 
-            foreach (var subCategory in request.SubCategories!)
-            {
-                category.SubCategories.Add(subCategory);
-            }
-
             _context.Entry(category).State = EntityState.Modified;
 			await _context.SaveChangesAsync();
 

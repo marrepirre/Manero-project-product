@@ -4,6 +4,6 @@ public class CategoryEntity
 {
 	public string Id { get; set; } = Guid.NewGuid().ToString();
 	public string? CategoryName { get; set; }
-	public List<string> SubCategories { get; } = [];
+	
 }
 

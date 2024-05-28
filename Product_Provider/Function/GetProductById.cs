@@ -54,7 +54,7 @@ public class GetProductById(ILogger<GetProductById> logger, DataContext context)
             IsTop = productEntity.IsTop,
             OriginalPrice = productEntity.OriginalPrice,
             DiscountPrice = productEntity.DiscountPrice,
-            SubCategory = productEntity.SubCategory,
+            Category = productEntity.Category,
             ThumbnailImage = productEntity.ThumbnailImage,
             Images = productEntity.Images
         };

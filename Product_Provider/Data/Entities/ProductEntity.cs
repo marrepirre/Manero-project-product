@@ -20,7 +20,7 @@ public class ProductEntity
     public bool IsTop { get; set; }
 	public decimal OriginalPrice { get; set; }
 	public decimal? DiscountPrice { get; set; }
-    public string? SubCategory { get; set; }
+    public string? Category { get; set; }
     public string? ThumbnailImage { get; set; }
     public List<string> Images { get; set; } = [];
 }
