@@ -23,8 +23,13 @@ public class CreateCategory(ILogger<CreateCategory> logger, DataContext context)
 
 			var body = await new StreamReader(req.Body).ReadToEndAsync();
 			var request = JsonConvert.DeserializeObject<CategoryRequest>(body);
+            var existingCategory = await _context.Categories.FirstOrDefaultAsync(c => c.CategoryName == request.CategoryName);
+            if (existingCategory != null)
+            {
+                return new BadRequestResult();
+            }
 
-			var category = await _context.Categories.FirstOrDefaultAsync(x => x.CategoryName == request.CategoryName);
+            var category = await _context.Categories.FirstOrDefaultAsync(x => x.CategoryName == request.CategoryName);
 			if (category == null)
 			{
 				category = new CategoryEntity

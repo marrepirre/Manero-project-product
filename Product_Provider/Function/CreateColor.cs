@@ -23,8 +23,13 @@ namespace Product_Provider.Function
 			{
 				var body = await new StreamReader(req.Body).ReadToEndAsync();
 				var request = JsonConvert.DeserializeObject<ColorRequest>(body);
+                var existingColor = await _context.Colors.FirstOrDefaultAsync(c => c.Color == request.Color);
+                if (existingColor != null)
+                {
+                    return new BadRequestResult();
+                }
 
-				if (!await _context.Colors.AnyAsync(x => x.Color == request.Color))
+                if (!await _context.Colors.AnyAsync(x => x.Color == request.Color))
 				{
                     _context.Colors.Add(new ColorEntity { Color = request.Color });
                     await _context.SaveChangesAsync();

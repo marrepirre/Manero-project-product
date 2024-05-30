@@ -37,7 +37,7 @@ public class GetProductById(ILogger<GetProductById> logger, DataContext context)
         }
     }
 
-    private ProductModel MapToProductModel(ProductEntity productEntity)
+    public static ProductModel MapToProductModel(ProductEntity productEntity)
     {
         return new ProductModel
         {

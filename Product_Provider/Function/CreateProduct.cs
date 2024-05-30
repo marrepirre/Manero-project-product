@@ -46,7 +46,8 @@ namespace Product_Provider.Function;
   
 				_context.Add(productEntity);
 				await _context.SaveChangesAsync();
-			}
+                return new OkObjectResult(productEntity);
+            }
 
 		}
 		catch (Exception ex)

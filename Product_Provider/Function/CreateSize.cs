@@ -23,6 +23,12 @@ namespace Product_Provider.Function
                 var body = await new StreamReader(req.Body).ReadToEndAsync();
                 var request = JsonConvert.DeserializeObject<SizeRequest>(body);
 
+                var existingSize = await _context.Sizes.FirstOrDefaultAsync(c => c.Size == request.Size);
+                if (existingSize != null)
+                {
+                    return new BadRequestResult();
+                }
+
                 if (!await _context.Sizes.AnyAsync(x => x.Size == request.Size))
                 {
                     _context.Sizes.Add(new SizeEntity { Size = request.Size });
